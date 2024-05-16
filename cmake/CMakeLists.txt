@@ -271,6 +271,15 @@ if(PKG_PLUGIN AND (NOT ((CMAKE_SYSTEM_NAME STREQUAL "Windows"))))
 endif()
 install(TARGETS lmp EXPORT LAMMPS_Targets DESTINATION ${CMAKE_INSTALL_BINDIR})
 
+option(LAMMPS_WITH_ARIELAPI "Whether to use the ArielAPI" OFF)
+if (LAMMPS_WITH_ARIELAPI)
+  find_package(arielapi)
+  target_link_directories(lmp PRIVATE ${ARIELAPI_INCLUDE_DIR})
+  target_link_libraries(lmp PRIVATE arielapi)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I${ARIELAPI_INCLUDE_DIR} -DUSE_ARIELAPI")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I${ARIELAPI_INCLUDE_DIR} -DUSE_ARIELAPI")
+endif()
+
 option(CMAKE_VERBOSE_MAKEFILE "Generate verbose Makefiles" OFF)
 
 set(STANDARD_PACKAGES
@@ -962,6 +971,9 @@ foreach(_var ${_allvars})
 endforeach()
 
 get_target_property(DEFINES lammps COMPILE_DEFINITIONS)
+if (LAMMPS_WITH_ARIELAPI)
+  list(APPEND DEFINES "USE_ARIELAPI")
+endif()
 if(BUILD_IS_MULTI_CONFIG)
   set(LAMMPS_BUILD_TYPE "Multi-Config")
 else()
