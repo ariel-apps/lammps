@@ -26,6 +26,10 @@
 
 #include <cstring>
 
+#ifdef USE_ARIELAPI
+#include <arielapi.h>
+#endif
+
 using namespace LAMMPS_NS;
 
 /* ---------------------------------------------------------------------- */
@@ -151,6 +155,9 @@ void Run::command(int narg, char **arg)
   //   else just init timer and setup output
   // if post, do full Finish, else just print time
 
+#ifdef USE_ARIELAPI
+  ariel_enable();
+#endif
   update->whichflag = 1;
   timer->init_timeout();
 
@@ -236,6 +243,10 @@ void Run::command(int narg, char **arg)
       iter++;
     }
   }
+
+#ifdef USE_ARIELAPI
+  ariel_disable();
+#endif
 
   update->whichflag = 0;
   update->firststep = update->laststep = 0;
