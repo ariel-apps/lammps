@@ -156,6 +156,7 @@ void Run::command(int narg, char **arg)
   // if post, do full Finish, else just print time
 
 #ifdef USE_ARIELAPI
+  ariel_output_stats();
   ariel_enable();
 #endif
   update->whichflag = 1;
@@ -245,6 +246,7 @@ void Run::command(int narg, char **arg)
   }
 
 #ifdef USE_ARIELAPI
+  ariel_output_stats();
   ariel_disable();
 #endif
 
