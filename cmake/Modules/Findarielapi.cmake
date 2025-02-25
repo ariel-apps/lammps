@@ -4,16 +4,24 @@ set(SST_ELEMENTS_ROOT
 	PATH
     "SST-Elements source directory")
 
+set(SST_ELEMENTS_INSTALL
+	"$ENV{SST_ELEMENTS_INSTALL}"
+	CACHE
+	PATH
+    "SST-Elements install directory")
+
 find_library(ARIELAPI_LIBRARY
 	NAMES
 	arielapi
 	PATHS
+	"${SST_ELEMENTS_INSTALL}/lib/sst-elements-library" # Spack Location
     "${SST_ELEMENTS_ROOT}/src/sst/elements/ariel/api")
 
 find_path(ARIELAPI_INCLUDE_DIR
 	NAMES
 	arielapi.h
 	PATHS
+	"${SST_ELEMENTS_INSTALL}/include/sst/elements/ariel/api" # Spack Location
     "${SST_ELEMENTS_ROOT}/src/sst/elements/ariel/api")
 
 if ((NOT ARIELAPI_INCLUDE_DIR) OR (NOT ARIELAPI_LIBRARY))
